@@ -1,16 +1,36 @@
-version: '3.8'
+version: '3.7'
 
 ################################################################################
 # SERVICES
 ################################################################################
 services:
+  # ------------------------------------------------------------
+  # MySQL Database
+  # https://hub.docker.com/_/mysql
+  # ------------------------------------------------------------
+  softuni_kubernetes_mysql_db_service:
+    image: mysql:8.0.22
+    ports:
+      - 3306:3306
+    networks:
+      - softuni_kubernetes-network
+    volumes:
+      - softuni_kubernetes_mysqldata:/var/lib/mysql
+    environment:
+      TZ: Europe/Sofia
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_ROOT_PASSWORD: yourStrongPassword12!@
+      MYSQL_DATABASE: softuni_kubernetes_app
+    container_name: softuni_kubernetes_mysql_db
 
 ################################################################################
 # VOLUMES
 ################################################################################
 volumes:
+  softuni_kubernetes_mysqldata:
 
 ################################################################################
 # NETWORK
 ################################################################################
 networks:
+  softuni_kubernetes-network:
