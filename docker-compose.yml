@@ -9,6 +9,7 @@ services:
   # https://hub.docker.com/_/mysql
   # ------------------------------------------------------------
   softuni_kubernetes_mysql_db_service:
+    container_name: softuni_kubernetes_mysql_db
     image: mysql:8.0.22
     ports:
       - 3306:3306
@@ -21,7 +22,31 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
       MYSQL_ROOT_PASSWORD: yourStrongPassword12!@
       MYSQL_DATABASE: softuni_kubernetes_app
-    container_name: softuni_kubernetes_mysql_db
+
+  # ------------------------------------------------------------
+  # PHP + Apache2
+  # https://hub.docker.com/_/php
+  # ------------------------------------------------------------
+  softuni_kubernetes_php_apache2_service:
+    container_name: softuni_kubernetes_php_apache2
+    build:
+      context: ./Server
+      dockerfile: ./CarRentalSystemAPI/Dockerfile
+    working_dir: /var/www/html
+    ports:
+      - '5080:80'
+      - '5443:443'
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: softuni_kubernetes_mysql_db
+      DB_PORT: 3306
+      DB_DATABASE: softuni_kubernetes_app
+      DB_USERNAME: root
+      DB_PASSWORD: yourStrongPassword12!@
+    networks:
+      - softuni_kubernetes-network
+    depends_on:
+      - softuni_kubernetes_mysql_db_service
 
 ################################################################################
 # VOLUMES
