@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['prefix' => 'db'], function () {
+    Route::post('/migrate', '\App\Http\Controllers\DatabaseMigrationsController@migrate');
+});
+
+Route::group(['prefix' => 'cars'], function () {
+    Route::get('/', '\App\Http\Controllers\CarsController@getAll');
+});
+
+Route::group(['prefix' => 'car'], function () {
+    Route::post('/', '\App\Http\Controllers\CarController@create');
 });
