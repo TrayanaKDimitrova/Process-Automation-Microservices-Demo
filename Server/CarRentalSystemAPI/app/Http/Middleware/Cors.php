@@ -20,14 +20,19 @@ class Cors
             return $next;
         }
 
+        $adminService = env('ADMIN_URL', 'null');
+        $clientService = env('CLIENT_URL', 'null');
         if ( isset( $_SERVER['HTTP_ORIGIN'] ) ) {
-            $next->header('Access-Control-Allow-Origin' , $_SERVER['HTTP_ORIGIN']);
-            $next->header('Access-Control-Allow-Credentials' , 'true');
-        } else {
-            $next->header('Access-Control-Allow-Origin' , '*');
+            if (strstr($_SERVER['HTTP_ORIGIN'], $clientService) !== false) {
+                $next->header('Access-Control-Allow-Origin' , $clientService);
+                $next->header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+            } elseif (strstr($_SERVER['HTTP_ORIGIN'], $adminService) !== false) {
+                $next->header('Access-Control-Allow-Origin' , $adminService);
+                $next->header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+            }
         }
 
-        $next->header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        $next->header('Access-Control-Allow-Credentials' , 'true');
         $next->header('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization, Cache-Control, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, Accept-Encoding');
 
         return $next;

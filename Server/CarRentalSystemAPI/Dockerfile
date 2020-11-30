@@ -76,8 +76,8 @@ RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
 # --------------
 # Copy the Project to the container
 
-ADD ./CarRentalSystemAPI/ /var/www/html/
-RUN chown -R www-data:www-data /var/www/html/
+# ADD ./CarRentalSystemAPI/ /var/www/html/
+# RUN chown -R www-data:www-data /var/www/html/
 
 # --------------
 # Expose the docker ports
