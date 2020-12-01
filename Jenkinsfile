@@ -21,27 +21,20 @@ pipeline {
                 powershell(script: 'docker images -a')
             }
         }   
-    // stage ('Build Development/Production Image') {
-    //   when { branch 'development' }
-	//       steps {
-    //         echo "Build Development Image"
-	//        //powershell(script: 'docker build -t 3176a6a/demo-carrentalsystem-client-development:latest --build-arg configuration=development ./Client')    
-	//       }
-    //   when { branch 'main' }
-	//     steps {
-    //         echo "Build Production Image"
-	//        //powershell(script: 'docker build -t 3176a6a/demo-carrentalsystem-client-production:1:0 --build-arg configuration=production ./Client')    
-	//     }
-    // }
 	    stage('Run Test Application') {
             steps {
                 powershell(script: 'docker-compose up -d')    
             }
         }
         stage('Run Integration Tests') {
-	        steps {
-	            powershell(script: './Tests/DevelopmentTests.ps')      
-	        }
+            when { branch 'development' }
+                steps {
+                    powershell(script: './Tests/DevelopmentTests.ps')      
+                }
+            when { branch 'main' }
+                steps {
+                    powershell(script: './Tests/ProductionTests.ps')      
+                }
         }
         stage('Stop Test Application') {
             steps {
@@ -70,6 +63,52 @@ pipeline {
                         }
                     }
                 }
+                post {
+                    success {
+                        echo "Images pushed!"
+                    }
+                    failure {
+                        echo "Images push failed!"
+                        emailext body: 'Images Push Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+                    }
+                }
         }
-     }
+        stage('Deploy Development or Production') {
+            when { branch 'development' }
+                steps {
+                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
+                        powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                        powershell(script: 'kubectl apply -f ./.k8s/databases')    
+                        powershell(script: 'kubectl apply -f ./.k8s/web-services') 
+                        powershell(script: 'kubectl apply -f ./.k8s/clients')
+                    }
+                }
+            when { branch 'main' }
+                stages {
+                    stage('Input') {
+                        steps {
+                            input('Do you want to publish production?')
+                        }
+                    }
+                    stage('If publish is clicked') {
+                        steps {
+                            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
+                                powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
+                                powershell(script: 'kubectl apply -f ./.k8s/databases')
+                                powershell(script: 'kubectl apply -f ./.k8s/web-services') 
+                                powershell(script: 'kubectl apply -f ./.k8s/clients')   
+                            }
+                        }
+                        post {
+                            success {
+                                echo "Images published!"
+                            }
+                            failure {
+                                echo "Images publish failed in ProductionServer!"
+                                emailext body: 'Images publish Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+                            }
+                        }
+                    }
+                }
+        }
 }
