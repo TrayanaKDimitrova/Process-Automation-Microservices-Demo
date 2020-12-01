@@ -32,7 +32,7 @@ Sometimes the API service throws error 500 when trying to connect to the databas
   - `docker volume rm kubernetes-demo-project_softuni_kubernetes_mysqldata`
 - start over ...
 
-### Start project withkubectl
+### Start project with kubectl
 
 1. run kubectl commands
    - kubectl delete all --all
