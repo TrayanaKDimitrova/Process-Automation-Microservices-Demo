@@ -60,7 +60,7 @@ services:
   softuni_kubernetes_httpd_client_service:
     container_name: softuni_kubernetes_httpd_client
     build:
-      context: ./Server
+      context: ./Client
       dockerfile: ./CarRentalSystemClient/Dockerfile
     working_dir: /var/www/html
     ports:
@@ -81,7 +81,7 @@ services:
   softuni_kubernetes_httpd_admin_service:
     container_name: softuni_kubernetes_httpd_admin
     build:
-      context: ./Server
+      context: ./Client
       dockerfile: ./CarRentalSystemAdmin/Dockerfile
     working_dir: /var/www/html
     ports:
