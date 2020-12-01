@@ -54,7 +54,7 @@ services:
       - softuni_kubernetes-network
     depends_on:
       - softuni_kubernetes_php_apache2_service
-      
+
   softuni_kubernetes_httpd_admin_service:
     container_name: softuni_kubernetes_httpd_admin
     build:
@@ -70,7 +70,9 @@ services:
       - softuni_kubernetes-network
     depends_on:
       - softuni_kubernetes_php_apache2_service
+
 volumes:
   softuni_kubernetes_mysqldata:
+
 networks:
   softuni_kubernetes-network:
