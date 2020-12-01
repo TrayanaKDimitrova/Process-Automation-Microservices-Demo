@@ -34,7 +34,7 @@ Sometimes the API service throws error 500 when trying to connect to the databas
 
 ## Application Architecture
 
-![Application Architecture](https://github.com/TrayanaKDimitrova/Process-Automation-Microservices-Demo/blob/main/Resources/ApplicationArchitecture.png)
+![Application Architecture](https://github.com/TrayanaKDimitrova/Process-Automation-Microservices-Demo/blob/main/Resources/ApplicationArchitecture.jpg)
 
 ### API Service
 
