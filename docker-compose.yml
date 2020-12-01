@@ -17,10 +17,10 @@ services:
 
   softuni_kubernetes_php_apache2_service:
     container_name: softuni_kubernetes_php_apache2
+    image: 3176a6a/demo-carrentalsystem-server:1.0 
     build:
       context: ./Server
       dockerfile: ./CarRentalSystemAPI/Dockerfile
-    working_dir: /var/www/html
     ports:
       - '5080:80'
       - '5081:443'
@@ -38,13 +38,12 @@ services:
     depends_on:
       - softuni_kubernetes_mysql_db_service
 
-
   softuni_kubernetes_httpd_client_service:
     container_name: softuni_kubernetes_httpd_client
+    image: 3176a6a/demo-carrentalsystem-client:1.0 
     build:
       context: ./Client
       dockerfile: ./CarRentalSystemClient/Dockerfile
-    working_dir: /var/www/html
     ports:
       - '5084:80'
       - '5085:443'
@@ -57,10 +56,10 @@ services:
 
   softuni_kubernetes_httpd_admin_service:
     container_name: softuni_kubernetes_httpd_admin
+    image: 3176a6a/demo-carrentalsystem-admin:1.0 
     build:
       context: ./Client
       dockerfile: ./CarRentalSystemAdmin/Dockerfile
-    working_dir: /var/www/html
     ports:
       - '5088:80'
       - '5089:443'
