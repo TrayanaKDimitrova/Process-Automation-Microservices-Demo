@@ -59,5 +59,16 @@ pipeline {
                 }
             }
         }
+        stage('Push Images') {
+	        when { branch 'main' }
+                steps {
+                    script {
+                        docker.withRegistry('https://index.docker.io/v1/', 'MyDockerHubCredentials') {
+                            def client = docker.image("3176a6a/demo-carrentalsystem-client-Jenkins")
+                            client.push(env.BUILD_ID)
+                        }
+                    }
+                }
+        }
      }
 }
