@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5084
+      targetPort: 80
+  selector:
+    web-service: client
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-service
+spec:
+  selector:
+    matchLabels:
+      web-service: client
+  template:
+    metadata:
+      labels:
+        web-service: client
+        system: client
+    spec:
+      containers:
+        - name: client-service
+          image: 3176a6a/demo-carrentalsystem-client:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '250m'
+          env:
+            - name: API_URL
+                valueFrom:
+                  configMapKeyRef:
+                    name: environment-settings
+                    key: api-url

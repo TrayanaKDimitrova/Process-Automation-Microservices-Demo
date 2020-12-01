@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 5088
+      targetPort: 80
+  selector:
+    web-service: admin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-service
+spec:
+  selector:
+    matchLabels:
+      web-service: admin
+  template:
+    metadata:
+      labels:
+        web-service: admin
+        system: admin
+    spec:
+      containers:
+        - name: admin-service
+          image: 3176a6a/demo-carrentalsystem-admin:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              memory: '512Mi'
+              cpu: '250m'
+          env:
+            - name: API_URL
+                valueFrom:
+                  configMapKeyRef:
+                    name: environment-settings
+                    key: api-url

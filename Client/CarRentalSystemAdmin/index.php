@@ -108,6 +108,10 @@ if (isset($_ENV["API_URL"]) && !empty($_ENV["API_URL"])) {
 
 					isDbMigrationsFormSubmitting = false;
 					$dbMigrationsSubmitBtn.text($dbMigrationsSubmitBtn.data('label'));
+				},
+				error: function() {
+					alert('Something went wrong. Please try again later.');
+					isDbMigrationsFormSubmitting = false;
 				}
 			});
 		});
@@ -135,6 +139,10 @@ if (isset($_ENV["API_URL"]) && !empty($_ENV["API_URL"])) {
 
 					isCarsOffersFormSubmitting = false;
 					$carsOffersSubmitBtn.text($carsOffersSubmitBtn.data('label'));
+				},
+				error: function() {
+					alert('Something went wrong. Please try again later.');
+					isCarsOffersFormSubmitting = false;
 				}
 			});
 		});
