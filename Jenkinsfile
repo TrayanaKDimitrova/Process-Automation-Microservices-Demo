@@ -6,5 +6,14 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
+    stage('Run Unit Tests') {
+      steps {
+        powershell(script: """ 
+          cd Server
+          dotnet test
+          cd ..
+        """)
+      }
+    }
   }
 }
