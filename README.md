@@ -45,6 +45,28 @@ Sometimes the API service throws error 500 when trying to connect to the databas
    - this will force the API service to connect to the MySQL container and create the DB tables
 3. go to the Web Client at http://localhost:5084
 
+### Deploy to gcloud
+
+1. run kubectl commands
+   - gcloud container clusters get-credentials car-rental-system-dev --zone <zone> --project <project-id>
+   - kubectl delete all --all
+   - kubectl delete pvc --all
+   - kubectl delete -f .k8s/.environments/
+   - kubectl delete -f .k8s/databases/
+   - kubectl delete -f .k8s/clients/
+   - kubectl delete -f .k8s/web-services/
+   - kubectl apply -f .k8s/.environments/development.yml
+   - kubectl apply -f .k8s/clients/
+   - kubectl apply -f .k8s/databases/
+      - get enternal IPs (refer to the image below) from the Google Cloud and set their values to the deployment environment file for the
+      - admin-service
+      - client-service
+   - kubectl delete -f .k8s/.environments/
+   - kubectl apply -f .k8s/.environments/development.yml
+   - kubectl apply -f .k8s/web-services/
+
+![gcloud](https://github.com/TrayanaKDimitrova/Process-Automation-Microservices-Demo/blob/main/Resources/GoogleCloudPlatformDeployment.png)
+
 ## Application Architecture
 
 ![Application Architecture](https://github.com/TrayanaKDimitrova/Process-Automation-Microservices-Demo/blob/main/Resources/ApplicationArchitecture.jpg)
