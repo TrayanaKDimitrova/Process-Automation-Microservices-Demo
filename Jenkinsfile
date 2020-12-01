@@ -64,7 +64,7 @@ pipeline {
                 steps {
                     script {
                         docker.withRegistry('https://index.docker.io/v1/', 'MyDockerHubCredentials') {
-                            def client = docker.image("3176a6a/demo-carrentalsystem-client-Jenkins")
+                            def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
                             client.push(env.BUILD_ID)
                             client.push('latest')
                         }
