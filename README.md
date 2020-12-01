@@ -32,6 +32,19 @@ Sometimes the API service throws error 500 when trying to connect to the databas
   - `docker volume rm kubernetes-demo-project_softuni_kubernetes_mysqldata`
 - start over ...
 
+### Start project withkubectl
+
+1. run kubectl commands
+   - kubectl delete all --all
+   - kubectl delete pvc --all
+   - kubectl apply -f .k8s/.environments/local.yml
+   - kubectl apply -f .k8s/databases/
+   - kubectl apply -f .k8s/web-services/
+   - kubectl apply -f .k8s/clients/
+2. go to the Web Admin at http://localhost:5088 and click on Run Migrations
+   - this will force the API service to connect to the MySQL container and create the DB tables
+3. go to the Web Client at http://localhost:5084
+
 ## Application Architecture
 
 ![Application Architecture](https://github.com/TrayanaKDimitrova/Process-Automation-Microservices-Demo/blob/main/Resources/ApplicationArchitecture.jpg)
