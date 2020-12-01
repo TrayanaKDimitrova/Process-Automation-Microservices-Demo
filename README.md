@@ -20,7 +20,7 @@ This project follows the structure and the approaches from [Process Automation w
    - this will force the API service to connect to the MySQL container and create the DB tables
 3. go to the Web Client at http://localhost:5084
 
-### Known issues on localhost
+### Known issues on localhost -- when using MySQL 8.0.23
 
 Sometimes the API service throws error 500 when trying to connect to the database. In this case you have to:
 
