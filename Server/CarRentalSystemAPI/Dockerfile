@@ -76,8 +76,14 @@ RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
 # --------------
 # Copy the Project to the container
 
-# ADD ./CarRentalSystemAPI/ /var/www/html/
-# RUN chown -R www-data:www-data /var/www/html/
+ADD ./CarRentalSystemAPI/ /var/www/html/
+RUN echo "APP_NAME=Laravel\n" \
+    "APP_ENV=local\n" \
+    "APP_KEY=base64:K2sMQqsi31+DYEhhbin92knyp/hyv/UzX7mY7/v6dc0=\n" \
+    "APP_DEBUG=true\n" \
+    "APP_URL=http://app.test\n" \
+    "\n" > /var/www/html.env
+RUN chown -R www-data:www-data /var/www/html/
 
 # --------------
 # Expose the docker ports

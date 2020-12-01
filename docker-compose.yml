@@ -5,6 +5,7 @@ version: '3.7'
 ################################################################################
 services:
   # ------------------------------------------------------------
+  # Database Service
   # MySQL Database
   # https://hub.docker.com/_/mysql
   # ------------------------------------------------------------
@@ -24,6 +25,7 @@ services:
       MYSQL_DATABASE: softuni_kubernetes_app
 
   # ------------------------------------------------------------
+  # API Service
   # PHP + Apache2
   # https://hub.docker.com/_/php
   # ------------------------------------------------------------
@@ -35,8 +37,10 @@ services:
     working_dir: /var/www/html
     ports:
       - '5080:80'
-      - '5443:443'
+      - '5081:443'
     environment:
+      CLIENT_URL: http://localhost:5084
+      ADMIN_URL: http://localhost:5088
       DB_CONNECTION: mysql
       DB_HOST: softuni_kubernetes_mysql_db
       DB_PORT: 3306
@@ -47,6 +51,48 @@ services:
       - softuni_kubernetes-network
     depends_on:
       - softuni_kubernetes_mysql_db_service
+
+  # ------------------------------------------------------------
+  # Client Service
+  # httpd
+  # https://hub.docker.com/_/httpd
+  # ------------------------------------------------------------
+  softuni_kubernetes_httpd_client_service:
+    container_name: softuni_kubernetes_httpd_client
+    build:
+      context: ./Server
+      dockerfile: ./CarRentalSystemClient/Dockerfile
+    working_dir: /var/www/html
+    ports:
+      - '5084:80'
+      - '5085:443'
+    environment:
+      API_URL: http://localhost:5080
+    networks:
+      - softuni_kubernetes-network
+    depends_on:
+      - softuni_kubernetes_php_apache2_service
+
+  # ------------------------------------------------------------
+  # Admin Service
+  # httpd
+  # https://hub.docker.com/_/httpd
+  # ------------------------------------------------------------
+  softuni_kubernetes_httpd_admin_service:
+    container_name: softuni_kubernetes_httpd_admin
+    build:
+      context: ./Server
+      dockerfile: ./CarRentalSystemAdmin/Dockerfile
+    working_dir: /var/www/html
+    ports:
+      - '5088:80'
+      - '5089:443'
+    environment:
+      API_URL: http://localhost:5080
+    networks:
+      - softuni_kubernetes-network
+    depends_on:
+      - softuni_kubernetes_php_apache2_service
 
 ################################################################################
 # VOLUMES

@@ -16,7 +16,7 @@ RUN a2ensite default-ssl.conf
 # --------------
 # Copy the Project to the container
 
-ADD ./CarRentalSystemClient/ /var/www/html/
+ADD ./CarRentalSystemAdmin/ /var/www/html/
 RUN chown -R www-data:www-data /var/www/html/
 
 # --------------

@@ -10,5 +10,6 @@ class DatabaseMigrationsController extends Controller
     public function migrate()
     {
         Artisan::call("migrate");
+        return true;
     }
 }
