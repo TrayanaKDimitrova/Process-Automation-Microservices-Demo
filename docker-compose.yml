@@ -1,14 +1,5 @@
 version: '3.7'
-
-################################################################################
-# SERVICES
-################################################################################
 services:
-  # ------------------------------------------------------------
-  # Database Service
-  # MySQL Database
-  # https://hub.docker.com/_/mysql
-  # ------------------------------------------------------------
   softuni_kubernetes_mysql_db_service:
     container_name: softuni_kubernetes_mysql_db
     image: mysql:5.7
@@ -24,11 +15,6 @@ services:
       MYSQL_ROOT_PASSWORD: yourStrongPassword12!@
       MYSQL_DATABASE: softuni_kubernetes_app
 
-  # ------------------------------------------------------------
-  # API Service
-  # PHP + Apache2
-  # https://hub.docker.com/_/php
-  # ------------------------------------------------------------
   softuni_kubernetes_php_apache2_service:
     container_name: softuni_kubernetes_php_apache2
     build:
@@ -52,11 +38,7 @@ services:
     depends_on:
       - softuni_kubernetes_mysql_db_service
 
-  # ------------------------------------------------------------
-  # Client Service
-  # httpd
-  # https://hub.docker.com/_/httpd
-  # ------------------------------------------------------------
+
   softuni_kubernetes_httpd_client_service:
     container_name: softuni_kubernetes_httpd_client
     build:
@@ -72,12 +54,7 @@ services:
       - softuni_kubernetes-network
     depends_on:
       - softuni_kubernetes_php_apache2_service
-
-  # ------------------------------------------------------------
-  # Admin Service
-  # httpd
-  # https://hub.docker.com/_/httpd
-  # ------------------------------------------------------------
+      
   softuni_kubernetes_httpd_admin_service:
     container_name: softuni_kubernetes_httpd_admin
     build:
@@ -93,15 +70,7 @@ services:
       - softuni_kubernetes-network
     depends_on:
       - softuni_kubernetes_php_apache2_service
-
-################################################################################
-# VOLUMES
-################################################################################
 volumes:
   softuni_kubernetes_mysqldata:
-
-################################################################################
-# NETWORK
-################################################################################
 networks:
   softuni_kubernetes-network:
