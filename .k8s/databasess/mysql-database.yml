@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: softuni_kubernetes_mysqldata
+  name: softuni-kubernetes-mysqldata
 spec:
   accessModes:
     - ReadWriteOnce
@@ -12,7 +12,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: softuni_kubernetes_mysql_db
+  name: softuni-kubernetes-mysql-db
 spec:
   clusterIP: None
   ports:
@@ -24,7 +24,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: softuni_kubernetes_mysql_db
+  name: softuni-kubernetes-mysql-db
 spec:
   serviceName: softuni_kubernetes_mysql_db
   selector:
@@ -71,9 +71,9 @@ spec:
                   name: environment-secrets
                   key: mysql-root-password
           volumeMounts:
-            - name: softuni_kubernetes_mysqldata
+            - name: softuni-kubernetes-mysqldata
               mountPath: /var/lib/mysql
       volumes:
-        - name: softuni_kubernetes_mysqldata
+        - name: softuni-kubernetes-mysqldata
           persistentVolumeClaim:
-            claimName: softuni_kubernetes_mysqldata
+            claimName: softuni-kubernetes-mysqldata
