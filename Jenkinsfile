@@ -6,13 +6,19 @@ pipeline {
         echo "$GIT_BRANCH"
       }
     }
-    stage('Run Unit Tests') {
+    // stage('Run Unit Tests') {
+    //   steps {
+    //     powershell(script: """ 
+    //       cd Server
+    //       dotnet test
+    //       cd ..
+    //     """)
+    //   }
+    // }
+    stage('Docker Build') {
       steps {
-        powershell(script: """ 
-          cd Server
-          dotnet test
-          cd ..
-        """)
+        powershell(script: 'docker-compose build')   
+        powershell(script: 'docker images -a')
       }
     }
   }
