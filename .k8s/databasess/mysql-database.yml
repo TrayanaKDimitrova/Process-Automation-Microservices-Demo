@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: softuni_kubernetes_mysqldata
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: softuni_kubernetes_mysql_db
+spec:
+  clusterIP: None
+  ports:
+    - port: 1433
+      targetPort: 1433
+  selector:
+    database: mysqldb
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: softuni_kubernetes_mysql_db
+spec:
+  serviceName: softuni_kubernetes_mysql_db
+  selector:
+    matchLabels:
+      database: mysqldb
+  template:
+    metadata:
+      labels:
+        database: mysqldb
+        system: database
+    spec:
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        fsGroup: 10001
+      containers:
+        - name: softuni_kubernetes_mysql_db
+          image: mysql:5.7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1433
+          resources:
+            limits:
+              memory: '2Gi'
+              cpu: '500m'
+          env:
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: mysql-tz
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: mysql-allow-empty-password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: environment-secrets
+                  key: mysql-database
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: environment-secrets
+                  key: mysql-root-password
+          volumeMounts:
+            - name: softuni_kubernetes_mysqldata
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: softuni_kubernetes_mysqldata
+          persistentVolumeClaim:
+            claimName: softuni_kubernetes_mysqldata
