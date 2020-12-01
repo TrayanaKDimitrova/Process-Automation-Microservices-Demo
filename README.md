@@ -7,9 +7,10 @@ This project follows the structure and the approaches from [Process Automation w
 ### Commands
 
 - `docker-compose build` -- builds the docker images
-- `docker-compose up -d` || runs the docker in a detached mode
-- `docker-compose stop` || stops the docker containers
-- `docker-compose rm` || removes the stopped containers
+- `docker-compose push` -- pushes the docker images to docker hub
+- `docker-compose up -d` -- runs the docker in a detached mode
+- `docker-compose stop` -- stops the docker containers
+- `docker-compose rm` -- removes the stopped containers
 
 ### Standard start of this project with docker-compose
 
@@ -58,9 +59,9 @@ Sometimes the API service throws error 500 when trying to connect to the databas
    - kubectl apply -f .k8s/.environments/development.yml
    - kubectl apply -f .k8s/clients/
    - kubectl apply -f .k8s/databases/
-      - get enternal IPs (refer to the image below) from the Google Cloud and set their values to the deployment environment file for the
-      - admin-service
-      - client-service
+      - get the IPs (refer to the image below) from the Google Cloud and set their values to the deployment environment file for the
+      - admin-allowed-origins
+      - client-allowed-origins
    - kubectl delete -f .k8s/.environments/
    - kubectl apply -f .k8s/.environments/development.yml
    - kubectl apply -f .k8s/web-services/
