@@ -7,10 +7,12 @@ data:
   admin-url: http://localhost:5088
   client-url: http://localhost:5084
   mysql-tz: Europe/Sofia
-  mysql-allow-empty-password: 'no'
+  mysql-allow-empty-password: "no"
   api-db-connection: mysql
-  api-db-port: 3306
+  api-db-port: "3306"
+
 ---
+
 apiVersion: v1
 kind: Secret
 metadata:
