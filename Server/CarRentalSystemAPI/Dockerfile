@@ -82,7 +82,7 @@ RUN echo "APP_NAME=Laravel\n" \
     "APP_KEY=base64:K2sMQqsi31+DYEhhbin92knyp/hyv/UzX7mY7/v6dc0=\n" \
     "APP_DEBUG=true\n" \
     "APP_URL=http://app.test\n" \
-    "\n" > /var/www/html.env
+    "\n" > /var/www/html/.env
 RUN chown -R www-data:www-data /var/www/html/
 
 # --------------

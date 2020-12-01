@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-
+define('STDIN',fopen("php://stdin","r"));
 define('LARAVEL_START', microtime(true));
 
 /*
