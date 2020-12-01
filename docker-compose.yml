@@ -25,8 +25,8 @@ services:
       - '5080:80'
       - '5081:443'
     environment:
-      CLIENT_URL: http://localhost:5084
-      ADMIN_URL: http://localhost:5088
+      CLIENT_ALLOWED_ORIGINS: http://localhost:5084
+      ADMIN_ALLOWED_ORIGINS: http://localhost:5088
       DB_CONNECTION: mysql
       DB_HOST: softuni_kubernetes_mysql_db
       DB_PORT: 3306

@@ -42,16 +42,16 @@ spec:
               memory: '512Mi'
               cpu: '250m'
           env:
-            - name: CLIENT_URL
+            - name: CLIENT_ALLOWED_ORIGINS
               valueFrom:
                 configMapKeyRef:
                   name: environment-settings
-                  key: client-url
-            - name: ADMIN_URL
+                  key: client-allowed-origins
+            - name: ADMIN_ALLOWED_ORIGINS
               valueFrom:
                 configMapKeyRef:
                   name: environment-settings
-                  key: admin-url
+                  key: admin-allowed-origins
             - name: DB_CONNECTION
               valueFrom:
                 configMapKeyRef:

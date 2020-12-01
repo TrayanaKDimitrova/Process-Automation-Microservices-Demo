@@ -4,8 +4,8 @@ metadata:
   name: environment-settings
 data:
   api-url: http://localhost:5080
-  admin-url: http://localhost:5088
-  client-url: http://localhost:5084
+  admin-allowed-origins: http://localhost:5088
+  client-allowed-origins: http://localhost:5084
   mysql-tz: Europe/Sofia
   mysql-allow-empty-password: "no"
   api-db-connection: mysql
