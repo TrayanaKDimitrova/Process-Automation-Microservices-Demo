@@ -15,9 +15,12 @@ RUN a2ensite default-ssl.conf
 
 # --------------
 # Copy the Project to the container
-
 ADD ./CarRentalSystemAdmin/ /var/www/html/
 RUN chown -R www-data:www-data /var/www/html/
+
+# --------------
+# Remove apt cache to reduce the image size
+RUN apt-get clean
 
 # --------------
 # Expose the docker ports
