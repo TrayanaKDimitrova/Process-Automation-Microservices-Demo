@@ -30,7 +30,7 @@ spec:
             - labelSelector:
                 matchLabels:
                   web-service: api
-              topologyKey: 'kubernetes.io/hostname'
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: api-service
           image: 3176a6a/demo-carrentalsystem-server:1.0
@@ -43,25 +43,25 @@ spec:
               cpu: '250m'
           env:
             - name: CLIENT_URL
-                valueFrom:
-                  configMapKeyRef:
-                    name: environment-settings
-                    key: client-url
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: client-url
             - name: ADMIN_URL
-                valueFrom:
-                  configMapKeyRef:
-                    name: environment-settings
-                    key: admin-url
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: admin-url
             - name: DB_CONNECTION
-                valueFrom:
-                  configMapKeyRef:
-                    name: environment-settings
-                    key: api-db-connection
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: api-db-connection
             - name: DB_PORT
-                valueFrom:
-                  configMapKeyRef:
-                    name: environment-settings
-                    key: api-db-port
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: api-db-port
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
