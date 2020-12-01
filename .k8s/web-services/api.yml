@@ -9,7 +9,6 @@ spec:
       targetPort: 80
   selector:
     web-service: api
-
 ---
 apiVersion: apps/v1
 kind: Deployment
