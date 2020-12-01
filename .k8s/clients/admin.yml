@@ -36,7 +36,7 @@ spec:
               cpu: '250m'
           env:
             - name: API_URL
-                valueFrom:
-                  configMapKeyRef:
-                    name: environment-settings
-                    key: api-url
+              valueFrom:
+                configMapKeyRef:
+                  name: environment-settings
+                  key: api-url
