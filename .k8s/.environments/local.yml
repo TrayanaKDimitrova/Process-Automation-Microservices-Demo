@@ -16,9 +16,9 @@ kind: Secret
 metadata:
   name: environment-secrets
 data:
-  mysql-database: c29mdHVuaV9rdWJlcm5ldGVzX2FwcAo=
+  mysql-database: c29mdHVuaS1rdWJlcm5ldGVzLWFwcA0K
   mysql-root-password: eW91clN0cm9uZ1Bhc3N3b3JkMTIhQAo=
-  api-db-host: c29mdHVuaV9rdWJlcm5ldGVzX215c3FsX2RiCg==
-  api-db-name: c29mdHVuaV9rdWJlcm5ldGVzX2FwcAo=
+  api-db-host: c29mdHVuaS1rdWJlcm5ldGVzLW15c3FsLWRiDQo=
+  api-db-name: c29mdHVuaS1rdWJlcm5ldGVzLWFwcA0K
   api-db-user: cm9vdAo=
   api-db-pass: eW91clN0cm9uZ1Bhc3N3b3JkMTIhQAo=

@@ -7,7 +7,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
@@ -16,8 +16,8 @@ metadata:
 spec:
   clusterIP: None
   ports:
-    - port: 1433
-      targetPort: 1433
+    - port: 3306
+      targetPort: 3306
   selector:
     database: mysqldb
 ---
@@ -26,7 +26,7 @@ kind: StatefulSet
 metadata:
   name: softuni-kubernetes-mysql-db
 spec:
-  serviceName: softuni_kubernetes_mysql_db
+  serviceName: softuni-kubernetes-mysql-db
   selector:
     matchLabels:
       database: mysqldb
@@ -40,15 +40,15 @@ spec:
       securityContext:
         fsGroup: 10001
       containers:
-        - name: softuni_kubernetes_mysql_db
+        - name: softuni-kubernetes-mysql-db
           image: mysql:5.7
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 1433
+            - containerPort: 3306
           resources:
             limits:
               memory: '2Gi'
-              cpu: '500m'
+              cpu: '1000m'
           env:
             - name: TZ
               valueFrom:
