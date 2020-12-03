@@ -7,7 +7,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
+      storage: 2Gi
 ---
 apiVersion: v1
 kind: Service
@@ -73,6 +73,7 @@ spec:
           volumeMounts:
             - name: softuni-kubernetes-mysqldata
               mountPath: /var/lib/mysql
+              subPath: mysql
       volumes:
         - name: softuni-kubernetes-mysqldata
           persistentVolumeClaim:
