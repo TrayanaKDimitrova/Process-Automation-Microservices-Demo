@@ -76,15 +76,15 @@ pipeline {
                 }
         }
         stage('Deploy Development') {
-              when { branch 'development' }
-                  steps {
-                      echo "Kuber apply all in Development."
-                       withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
-                                powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                                powershell(script: 'kubectl apply -f ./.k8s/databases')   
+            when { branch 'development' }
+                steps {
+                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
+                            powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                            powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                            powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                            powershell(script: 'kubectl apply -f ./.k8s/databases')   
                     }
+                }
         }
         stage('Deploy Production') {
             when { branch 'main' }
