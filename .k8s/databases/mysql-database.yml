@@ -7,7 +7,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi
 ---
 apiVersion: v1
 kind: Service
@@ -46,9 +46,9 @@ spec:
           ports:
             - containerPort: 3306
           resources:
-            limits:
-              memory: '2Gi'
-              cpu: '1000m'
+            requests:
+              cpu: 500m
+              memory: 1Gi
           env:
             - name: TZ
               valueFrom:
