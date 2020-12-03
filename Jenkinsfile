@@ -79,16 +79,18 @@ pipeline {
             when { branch 'development' }
                 steps {
                     withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
-                            powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
-                            powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                            powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                            powershell(script: 'kubectl apply -f ./.k8s/databases')   
+                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
+                        powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                        powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                        powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                        powershell(script: 'kubectl apply -f ./.k8s/databases')   
                     }
                 }
         }
         stage('Deploy Production') {
             when { branch 'main' }
-            stages {
+                stages {
                     stage('Input') {
                         steps {
                             input('Do you want to publish production?')
@@ -97,7 +99,9 @@ pipeline {
                     stage('If publish is clicked') {
                         steps {
                             echo "Kuber apply all in Production."
-                            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.238.234.31:5084']) {
+                            withKubeConfig([credentialsId: 'ProductionServer']) {
+                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
                                 powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
