@@ -17,8 +17,8 @@ pipeline {
                 powershell(script: 'docker-compose up -d')    
             }
         }
+        when { branch 'development' }
         stage('Run Integration Tests in Development ') {
-            when { branch 'development' }
             steps {
                 powershell(script: './Tests/DevelopmentTests.ps')      
             }
