@@ -86,38 +86,38 @@ pipeline {
         //             //     powershell(script: 'kubectl apply -f ./.k8s/clients')
                     }
         }
-        //stage('Deploy Production') {
-        //     when { branch 'main' }
-        //         stages {
-        //             stage('Input') {
-        //                 steps {
-        //                     input('Do you want to publish production?')
-        //                 }
-        //             }
-        //             stage('If publish is clicked') {
-        //                 steps {
-        //                     echo "Kuber apply all in Production."
-        //                     // withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
-        //                     //     powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
-        //                     //     powershell(script: 'kubectl apply -f ./.k8s/databases')
-        //                     //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
-        //                     //     powershell(script: 'kubectl apply -f ./.k8s/clients')   
-        //                     //}
-        //                 }
-        //                 post {
-        //                     success {
-        //                         echo "Images published!"
-        //                     }
-        //                     failure {
-        //                         echo "Images publish failed in ProductionServer!"
-        //                         emailext body: 'Images publish Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //         steps{
-        //         echo "Missing deploy stage for branch: " "$GIT_BRANCH"
-        //     }
-        // }
+        stage('Deploy Production') {
+             when { branch 'main' }
+                 stages {
+                    stage('Input') {
+                        steps {
+                            input('Do you want to publish production?')
+                        }
+                    }
+                    stage('If publish is clicked') {
+                        steps {
+                            echo "Kuber apply all in Production."
+                            // withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
+                            //     powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
+                            //     powershell(script: 'kubectl apply -f ./.k8s/databases')
+                            //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
+                            //     powershell(script: 'kubectl apply -f ./.k8s/clients')   
+                            //}
+                        }
+                        post {
+                            success {
+                                echo "Images published!"
+                            }
+                            failure {
+                                echo "Images publish failed in ProductionServer!"
+                                emailext body: 'Images publish Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+                            }
+                        }
+                    }
+                }
+                steps{
+                echo "Missing deploy stage for branch: " "$GIT_BRANCH"
+            }
+        }
     }
 }
