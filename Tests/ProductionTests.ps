@@ -4,9 +4,9 @@ do {
     Write-Output "[$env:STAGE_NAME] Starting container [Attempt: $count]"
     
 	Write-Output "Start test load pages"
-    $clientStart = Invoke-WebRequest -Uri http://localhost:5084 -UseBasicParsing
-	$adminPanelStart = Invoke-WebRequest -Uri http://localhost:5088/ -UseBasicParsing
-	$serverStart = Invoke-WebRequest -Uri http://localhost:5080 -UseBasicParsing
+    $clientStart = Invoke-WebRequest -Uri http://35.238.234.31:5084  -UseBasicParsing
+	$adminPanelStart = Invoke-WebRequest -Uri http://34.66.83.74:5088 -UseBasicParsing
+	$serverStart = Invoke-WebRequest -Uri http://35.184.106.16:5080 -UseBasicParsing
 
     if ($testStart.statuscode -eq '200') {
         $started = $true

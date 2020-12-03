@@ -76,11 +76,12 @@ pipeline {
         stage('Deploy Development or Production') {
             when { branch 'development' }
                 steps {
-                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
-                        powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
-                        powershell(script: 'kubectl apply -f ./.k8s/databases')    
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services') 
-                        powershell(script: 'kubectl apply -f ./.k8s/clients')
+                    echo "Kuber apply all in Development."
+                    // withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
+                    //     powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                    //     powershell(script: 'kubectl apply -f ./.k8s/databases')    
+                    //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
+                    //     powershell(script: 'kubectl apply -f ./.k8s/clients')
                     }
                 }
             when { branch 'main' }
@@ -92,11 +93,12 @@ pipeline {
                     }
                     stage('If publish is clicked') {
                         steps {
-                            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
-                                powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
-                                powershell(script: 'kubectl apply -f ./.k8s/databases')
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services') 
-                                powershell(script: 'kubectl apply -f ./.k8s/clients')   
+                            echo "Kuber apply all in Production."
+                            // withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
+                            //     powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
+                            //     powershell(script: 'kubectl apply -f ./.k8s/databases')
+                            //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
+                            //     powershell(script: 'kubectl apply -f ./.k8s/clients')   
                             }
                         }
                         post {
