@@ -23,12 +23,12 @@ pipeline {
                 powershell(script: './Tests/DevelopmentTests.ps')      
             }
         }
-        // stage('Run Integration Tests in Development ') {
-        //     when { branch 'main' }
-        //     steps {
-        //         powershell(script: './Tests/ProductionTests.ps')      
-        //     }
-        // }
+        stage('Run Integration Tests in Production ') {
+            when { branch 'main' }
+            steps {
+                powershell(script: './Tests/ProductionTests.ps')      
+            }
+        }
         // stage('Stop Test Application') {
         //     steps {
         //         powershell(script: 'docker-compose down') 
