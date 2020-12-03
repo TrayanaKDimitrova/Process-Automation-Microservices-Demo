@@ -28,13 +28,13 @@ pipeline {
         }
         stage('Run Integration Tests') {
             when { branch 'development' }
-                steps {
-                    powershell(script: './Tests/DevelopmentTests.ps')      
-                }
+            steps {
+                powershell(script: './Tests/DevelopmentTests.ps')      
+            }
             when { branch 'main' }
-                steps {
-                    powershell(script: './Tests/ProductionTests.ps')      
-                }
+            steps {
+                powershell(script: './Tests/ProductionTests.ps')      
+            }
         }
         stage('Stop Test Application') {
             steps {
@@ -74,16 +74,16 @@ pipeline {
                 }
         }
         stage('Deploy Development or Production') {
-            when { branch 'development' }
-                steps {
-                    echo "Kuber apply all in Development."
-                    // withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
+            // when { branch 'development' }
+            //     steps {
+            //         echo "Kuber apply all in Development."
+            //       withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
                     //     powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
                     //     powershell(script: 'kubectl apply -f ./.k8s/databases')    
                     //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
                     //     powershell(script: 'kubectl apply -f ./.k8s/clients')
                     //}
-                }
+               // }
             when { branch 'main' }
                 stages {
                     stage('Input') {
