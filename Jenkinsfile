@@ -87,8 +87,8 @@ pipeline {
                     }
         }
         stage('Deploy Production') {
-             when { branch 'main' }
-                 stages {
+            when { branch 'main' }
+            stages {
                     stage('Input') {
                         steps {
                             input('Do you want to publish production?')
@@ -114,9 +114,6 @@ pipeline {
                             }
                         }
                     }
-                }
-                steps{
-                echo "Missing deploy stage for branch: " "$GIT_BRANCH"
             }
         }
     }
