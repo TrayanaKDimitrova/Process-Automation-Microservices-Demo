@@ -82,7 +82,7 @@ pipeline {
                     //     powershell(script: 'kubectl apply -f ./.k8s/databases')    
                     //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
                     //     powershell(script: 'kubectl apply -f ./.k8s/clients')
-                    }
+                    //}
                 }
             when { branch 'main' }
                 stages {
@@ -99,7 +99,7 @@ pipeline {
                             //     powershell(script: 'kubectl apply -f ./.k8s/databases')
                             //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
                             //     powershell(script: 'kubectl apply -f ./.k8s/clients')   
-                            }
+                            //}
                         }
                         post {
                             success {
