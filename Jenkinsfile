@@ -6,15 +6,6 @@ pipeline {
                 echo "$GIT_BRANCH"
             }
         }
-    // stage('Run Unit Tests') {
-    //   steps {
-    //     powershell(script: """ 
-    //       cd Server
-    //       dotnet test
-    //       cd ..
-    //     """)
-    //   }
-    // }
         stage('Docker Build') {
             steps {
                 powershell(script: 'docker-compose build')   
@@ -32,28 +23,28 @@ pipeline {
                 powershell(script: './Tests/DevelopmentTests.ps')      
             }
         }
-        stage('Run Integration Tests in Development ') {
-            when { branch 'main' }
-            steps {
-                powershell(script: './Tests/ProductionTests.ps')      
-            }
-        }
-        stage('Stop Test Application') {
-            steps {
-                powershell(script: 'docker-compose down') 
-                powershell(script: 'docker volume prune -f')   		
-            }
-            post {
-                success {
-                    echo "Build successfull!"
-                    emailext body: 'Pipeline Finished: Success', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
-                }
-                failure {
-                    echo "Build failed!"
-                    emailext body: 'Pipeline Failed :(', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
-                }
-            }
-        }
+        // stage('Run Integration Tests in Development ') {
+        //     when { branch 'main' }
+        //     steps {
+        //         powershell(script: './Tests/ProductionTests.ps')      
+        //     }
+        // }
+        // stage('Stop Test Application') {
+        //     steps {
+        //         powershell(script: 'docker-compose down') 
+        //         powershell(script: 'docker volume prune -f')   		
+        //     }
+        //     post {
+        //         success {
+        //             echo "Build successfull!"
+        //             emailext body: 'Pipeline Finished: Success', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+        //         }
+        //         failure {
+        //             echo "Build failed!"
+        //             emailext body: 'Pipeline Failed :(', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+        //         }
+        //     }
+        // }
         // stage('Push Images') {
 	    //     when { branch 'main' }
         //         steps {
