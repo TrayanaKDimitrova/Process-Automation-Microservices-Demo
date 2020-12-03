@@ -35,6 +35,9 @@ pipeline {
             steps {
                 powershell(script: './Tests/ProductionTests.ps')      
             }
+            steps{
+                echo "Missing integration test for branch: " "$GIT_BRANCH"
+            }
         }
         stage('Stop Test Application') {
             steps {
@@ -74,16 +77,16 @@ pipeline {
                 }
         }
         stage('Deploy Development or Production') {
-            // when { branch 'development' }
-            //     steps {
-            //         echo "Kuber apply all in Development."
+             when { branch 'development' }
+                 steps {
+                     echo "Kuber apply all in Development."
             //       withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
                     //     powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
                     //     powershell(script: 'kubectl apply -f ./.k8s/databases')    
                     //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
                     //     powershell(script: 'kubectl apply -f ./.k8s/clients')
                     //}
-               // }
+                }
             when { branch 'main' }
                 stages {
                     stage('Input') {
@@ -112,6 +115,9 @@ pipeline {
                         }
                     }
                 }
+                steps{
+                echo "Missing deploy stage for branch: " "$GIT_BRANCH"
+            }
         }
     }
 }
