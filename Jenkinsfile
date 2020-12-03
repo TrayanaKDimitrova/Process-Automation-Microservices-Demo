@@ -45,27 +45,27 @@ pipeline {
                 }
             }
         }
-        // stage('Push Images') {
-	    //     when { branch 'main' }
-        //         steps {
-        //             script {
-        //                 docker.withRegistry('https://index.docker.io/v1/', 'MyDockerHubCredentials') {
-        //                     def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
-        //                     client.push(env.BUILD_ID)
-        //                     client.push('latest')
-        //                 }
-        //             }
-        //         }
-        //         post {
-        //             success {
-        //                 echo "Images pushed!"
-        //             }
-        //             failure {
-        //                 echo "Images push failed!"
-        //                 emailext body: 'Images Push Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
-        //             }
-        //         }
-        // }
+        stage('Push Images') {
+	        when { branch 'main' }
+                steps {
+                    script {
+                        docker.withRegistry('https://index.docker.io/v1/', 'MyDockerHubCredentials') {
+                            def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
+                            client.push(env.BUILD_ID)
+                            client.push('latest')
+                        }
+                    }
+                }
+                post {
+                    success {
+                        echo "Images pushed!"
+                    }
+                    failure {
+                        echo "Images push failed!"
+                        emailext body: 'Images Push Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+                    }
+                }
+        }
         // stage('Deploy Development or Production') {
         //      when { branch 'development' }
         //          steps {
