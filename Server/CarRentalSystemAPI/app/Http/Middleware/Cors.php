@@ -20,26 +20,22 @@ class Cors
             return $next;
         }
 
+        // ToDo: process requests only from the client and admin services
         $adminService = env('ADMIN_ALLOWED_ORIGINS', 'null');
         $clientService = env('CLIENT_ALLOWED_ORIGINS', 'null');
-        /*
-        if ( isset( $_SERVER['HTTP_ORIGIN'] ) ) {
-            if (strstr($_SERVER['HTTP_ORIGIN'], $clientService) !== false) {
-                $next->header('Access-Control-Allow-Origin' , $clientService);
-                $next->header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-            } elseif (strstr($_SERVER['HTTP_ORIGIN'], $adminService) !== false) {
-                $next->header('Access-Control-Allow-Origin' , $adminService);
-                $next->header('Access-Control-Allow-Methods', 'POST, OPTIONS');
-            }
+
+        if (isset($_SERVER['HTTP_ORIGIN'])) {
+            $next->header('Access-Control-Allow-Origin' , $_SERVER['HTTP_ORIGIN']);
+            $next->header('Access-Control-Allow-Credentials' , 'true');
         }
-        */
 
-        // temporarily allow all origins for demo testing purpose
-        $next->header('Access-Control-Allow-Origin' , '*');
-        $next->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-
-        $next->header('Access-Control-Allow-Credentials' , 'true');
-        $next->header('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization, Cache-Control, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, Accept-Encoding');
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+                $next->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            }         
+            
+            $next->header('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method, Authorization, Cache-Control, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, Accept-Encoding');
+        }
 
         return $next;
     }

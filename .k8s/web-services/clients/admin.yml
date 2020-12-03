@@ -1,32 +1,20 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: client-service
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 5084
-      targetPort: 80
-  selector:
-    web-service: client
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: client-service
+  name: admin-service
 spec:
   selector:
     matchLabels:
-      web-service: client
+      web-service: admin
   template:
     metadata:
       labels:
-        web-service: client
-        system: client
+        web-service: admin
+        system: admin
     spec:
       containers:
-        - name: client-service
-          image: 3176a6a/demo-carrentalsystem-client:1.0
+        - name: admin-service
+          image: 3176a6a/demo-carrentalsystem-admin:1.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80

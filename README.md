@@ -49,24 +49,31 @@ Sometimes the API service throws error 500 when trying to connect to the databas
 ### Deploy to gcloud
 
 1. run kubectl commands
-   - gcloud container clusters get-credentials car-rental-system-dev --zone <zone> --project <project-id>
-   - kubectl delete all --all
-   - kubectl delete pvc --all
-   - kubectl delete -f .k8s/.environments/
-   - kubectl delete -f .k8s/databases/
-   - kubectl delete -f .k8s/clients/
-   - kubectl delete -f .k8s/web-services/
-   - kubectl apply -f .k8s/.environments/development.yml
-   - kubectl apply -f .k8s/clients/
-   - kubectl apply -f .k8s/databases/
-      - get the IPs (refer to the image below) from the Google Cloud and set their values to the deployment environment file for the
-      - admin-allowed-origins
-      - client-allowed-origins
-   - kubectl delete -f .k8s/.environments/
-   - kubectl apply -f .k8s/.environments/development.yml
-   - kubectl apply -f .k8s/web-services/
-
-![gcloud](https://github.com/TrayanaKDimitrova/Process-Automation-Microservices-Demo/blob/main/Resources/GoogleCloudPlatformDeployment.png)
+   1. switch to gcloud
+      - gcloud container clusters get-credentials car-rental-system-dev --zone <zone> --project <project-id>
+   2. make sure you have a clean start by deleting everything
+      - kubectl delete all --all
+      - kubectl delete pvc --all 
+   3. deploy the loadbalancers
+      - kubectl apply -f .k8s/loadbalancers/clients/
+      - kubectl apply -f .k8s/loadbalancers/services/
+   4. configure the environments
+      - go to https://console.cloud.google.com/kubernetes/discovery?project=<project-id>
+      - wait till the loadbalancers are deployed and their endpoints become available
+      - copy the endpoints from the `Services & Ingress` section
+      - edit the development.yml or production.yml environment files and set the values accordingly
+         ```
+         api-url: http://<api-service--endpoint-ip>:5080
+         admin-allowed-origins: http://<admin-service--endpoint-ip>:5088
+         client-allowed-origins: http://<client-service--endpoint-ip>:5084
+         ```
+   5. deploy the configurations
+      - kubectl apply -f .k8s/.environments/development.yml
+   6. deploy the services
+      - kubectl apply -f .k8s/web-services/clients
+      - kubectl apply -f .k8s/web-services/services
+   6. deploy the database
+      - kubectl apply -f .k8s/databases
 
 ## Application Architecture
 
