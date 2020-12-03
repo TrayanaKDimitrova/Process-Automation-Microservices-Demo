@@ -17,8 +17,8 @@ pipeline {
                 powershell(script: 'docker-compose up -d')    
             }
         }
-        when { branch 'development' }
         stage('Run Integration Tests in Development ') {
+            when { branch 'development' }
             steps {
                 powershell(script: './Tests/DevelopmentTests.ps')      
             }
@@ -29,22 +29,22 @@ pipeline {
                 powershell(script: './Tests/ProductionTests.ps')      
             }
         }
-        // stage('Stop Test Application') {
-        //     steps {
-        //         powershell(script: 'docker-compose down') 
-        //         powershell(script: 'docker volume prune -f')   		
-        //     }
-        //     post {
-        //         success {
-        //             echo "Build successfull!"
-        //             emailext body: 'Pipeline Finished: Success', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
-        //         }
-        //         failure {
-        //             echo "Build failed!"
-        //             emailext body: 'Pipeline Failed :(', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
-        //         }
-        //     }
-        // }
+        stage('Stop Test Application') {
+            steps {
+                powershell(script: 'docker-compose down') 
+                powershell(script: 'docker volume prune -f')   		
+            }
+            post {
+                success {
+                    echo "Build successfull!"
+                    emailext body: 'Pipeline Finished: Success', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+                }
+                failure {
+                    echo "Build failed!"
+                    emailext body: 'Pipeline Failed :(', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
+                }
+            }
+        }
         // stage('Push Images') {
 	    //     when { branch 'main' }
         //         steps {
