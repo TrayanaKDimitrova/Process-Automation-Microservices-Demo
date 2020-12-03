@@ -53,6 +53,15 @@ pipeline {
                             def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
                             client.push(env.BUILD_ID)
                             client.push('latest')
+                            // def admin = docker.image("3176a6a/demo-carrentalsystem-admin")
+                            // admin.push(env.BUILD_ID)
+                            // admin.push('latest')
+                            // def client = docker.image("3176a6a/demo-carrentalsystem-client")
+                            // client.push(env.BUILD_ID)
+                            // client.push('latest')
+                            // def server = docker.image("3176a6a/demo-carrentalsystem-server")
+                            // server.push(env.BUILD_ID)
+                            // server.push('latest')
                         }
                     }
                 }
@@ -66,17 +75,18 @@ pipeline {
                     }
                 }
         }
-        // stage('Deploy Development or Production') {
-        //      when { branch 'development' }
-        //          steps {
-        //              echo "Kuber apply all in Development."
+        stage('Deploy Development') {
+              when { branch 'development' }
+                  steps {
+                      echo "Kuber apply all in Development."
         //     //       withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
         //             //     powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
         //             //     powershell(script: 'kubectl apply -f ./.k8s/databases')    
         //             //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
         //             //     powershell(script: 'kubectl apply -f ./.k8s/clients')
-        //             //}
-        //         }
+                    }
+        }
+        //stage('Deploy Production') {
         //     when { branch 'main' }
         //         stages {
         //             stage('Input') {
