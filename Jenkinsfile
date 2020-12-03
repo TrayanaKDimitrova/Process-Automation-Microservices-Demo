@@ -50,18 +50,18 @@ pipeline {
                 steps {
                     script {
                         docker.withRegistry('https://index.docker.io/v1/', 'MyDockerHubCredentials') {
-                            def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
-                            client.push(env.BUILD_ID)
-                            client.push('latest')
-                            // def admin = docker.image("3176a6a/demo-carrentalsystem-admin")
-                            // admin.push(env.BUILD_ID)
-                            // admin.push('latest')
-                            // def client = docker.image("3176a6a/demo-carrentalsystem-client")
+                            // def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
                             // client.push(env.BUILD_ID)
                             // client.push('latest')
-                            // def server = docker.image("3176a6a/demo-carrentalsystem-server")
-                            // server.push(env.BUILD_ID)
-                            // server.push('latest')
+                            def admin = docker.image("3176a6a/demo-carrentalsystem-admin")
+                            admin.push(env.BUILD_ID)
+                            admin.push('latest')
+                            def client = docker.image("3176a6a/demo-carrentalsystem-client")
+                            client.push(env.BUILD_ID)
+                            client.push('latest')
+                            def server = docker.image("3176a6a/demo-carrentalsystem-server")
+                            server.push(env.BUILD_ID)
+                            server.push('latest')
                         }
                     }
                 }
@@ -79,11 +79,11 @@ pipeline {
               when { branch 'development' }
                   steps {
                       echo "Kuber apply all in Development."
-        //     //       withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.193.120.112']) {
-        //             //     powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
-        //             //     powershell(script: 'kubectl apply -f ./.k8s/databases')    
-        //             //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
-        //             //     powershell(script: 'kubectl apply -f ./.k8s/clients')
+                       withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
+                                powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                                powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                                powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                                powershell(script: 'kubectl apply -f ./.k8s/databases')   
                     }
         }
         stage('Deploy Production') {
@@ -97,12 +97,12 @@ pipeline {
                     stage('If publish is clicked') {
                         steps {
                             echo "Kuber apply all in Production."
-                            // withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
-                            //     powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
-                            //     powershell(script: 'kubectl apply -f ./.k8s/databases')
-                            //     powershell(script: 'kubectl apply -f ./.k8s/web-services') 
-                            //     powershell(script: 'kubectl apply -f ./.k8s/clients')   
-                            //}
+                            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.238.234.31:5084']) {
+                                powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
+                                powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                                powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                                powershell(script: 'kubectl apply -f ./.k8s/databases')   
+                            }
                         }
                         post {
                             success {
