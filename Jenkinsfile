@@ -100,8 +100,8 @@ pipeline {
                         steps {
                             echo "Kuber apply all in Production."
                             withKubeConfig([credentialsId: 'ProductionServer']) {
-                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
+                                //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                                //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
                                 powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
