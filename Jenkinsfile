@@ -78,7 +78,7 @@ pipeline {
         stage('Deploy Development') {
             when { branch 'development' }
                 steps {
-                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
+                    withKubeConfig([credentialsId: 'DevelopmentServer']) {
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
                         powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
