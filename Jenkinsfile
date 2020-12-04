@@ -76,7 +76,7 @@ pipeline {
             when { branch 'development' }
                 steps {
                     echo "Apply kubernetes apply files in development."
-                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
+                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.226.255.7']) {
                         // We have only one publish in cloud becouse have tial account.
                         //For this test reason we use Development and local is same publish for this project"
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
