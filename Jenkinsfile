@@ -76,14 +76,16 @@ pipeline {
             when { branch 'development' }
                 steps {
                     echo "Apply kubernetes apply files in development."
+                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
                         // We have only one publish in cloud becouse have tial account.
                         //For this test reason we use Development and local is same publish for this project"
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                        powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                        powershell(script: 'kubectl apply -f ./.k8s/.environments/development.yml') 
                         powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
                         powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
                         powershell(script: 'kubectl apply -f ./.k8s/databases')
+                    }
                 }
         }
         stage('Deploy Production') {
@@ -96,10 +98,12 @@ pipeline {
                     }
                     stage('If publish is clicked') {
                         steps {
+                            //In this branch we don't have production.yml.
+                            //And for security there missing IP for production.
                             withKubeConfig([credentialsId: 'ProductionServer']) {
                                 powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                                 powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                                powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
+                                powershell(script: 'kubectl apply -f ./.k8s/.environments/production.yml') 
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
                                 powershell(script: 'kubectl apply -f ./.k8s/databases')   
