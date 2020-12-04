@@ -78,9 +78,9 @@ pipeline {
         stage('Deploy Development') {
             when { branch 'development' }
                 steps {
-                    withKubeConfig([credentialsId: 'DevelopmentServer']) {
-                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
+                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
+                        //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                        //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
                         powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
                         powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
                         powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
@@ -98,7 +98,6 @@ pipeline {
                     }
                     stage('If publish is clicked') {
                         steps {
-                            echo "Kuber apply all in Production."
                             withKubeConfig([credentialsId: 'ProductionServer']) {
                                 //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                                 //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
