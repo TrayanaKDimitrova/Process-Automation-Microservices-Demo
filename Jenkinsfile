@@ -37,10 +37,12 @@ pipeline {
             post {
                 success {
                     echo "Build successfull!"
+                    // Mail notification
                     emailext body: 'Pipeline Finished: Success', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
                 }
                 failure {
                     echo "Build failed!"
+                    // Mail notification
                     emailext body: 'Pipeline Failed :(', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
                 }
             }
@@ -50,9 +52,6 @@ pipeline {
                 steps {
                     script {
                         docker.withRegistry('https://index.docker.io/v1/', 'MyDockerHubCredentials') {
-                            // def client = docker.image("3176a6a/demo-carrentalsystem-client-jenkins")
-                            // client.push(env.BUILD_ID)
-                            // client.push('latest')
                             def admin = docker.image("3176a6a/demo-carrentalsystem-admin")
                             admin.push(env.BUILD_ID)
                             admin.push('latest')
@@ -71,6 +70,7 @@ pipeline {
                     }
                     failure {
                         echo "Images push failed!"
+                        // Mail notification
                         emailext body: 'Images Push Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
                     }
                 }
@@ -78,6 +78,8 @@ pipeline {
         stage('Deploy Development') {
             when { branch 'development' }
                 steps {
+                    //We used trial cloud account have only one publish. This publish is production.
+                    //When have dev publish used this configuration in dev bransh. Now dev and local is same.
                     withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
@@ -98,10 +100,10 @@ pipeline {
                     }
                     stage('If publish is clicked') {
                         steps {
-                            echo "Kuber apply all in Production."
-                            withKubeConfig([credentialsId: 'ProductionServer']) {
-                                //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                                //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
+                            //
+                            withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
+                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
                                 powershell(script: 'kubectl apply -f ./.k8s/.environment/production.yml') 
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
                                 powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
@@ -114,6 +116,7 @@ pipeline {
                             }
                             failure {
                                 echo "Images publish failed in ProductionServer!"
+                                // Mail notification
                                 emailext body: 'Images publish Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
                             }
                         }
