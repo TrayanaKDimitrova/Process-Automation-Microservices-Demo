@@ -78,13 +78,14 @@ pipeline {
         stage('Deploy Development') {
             when { branch 'development' }
                 steps {
+                    echo "Kubernetes apply files."
                     //withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
                         //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                         //powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                        powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                        powershell(script: 'kubectl apply -f ./.k8s/databases')   
+                        //powershell(script: 'kubectl apply -f ./.k8s/.environment/development.yml') 
+                        //powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                        //powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                        //powershell(script: 'kubectl apply -f ./.k8s/databases')   
                    // }
                 }
         }
