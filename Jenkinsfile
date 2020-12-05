@@ -1,4 +1,4 @@
-def productionVersion = 1.0
+def productionVersion = "1.0"
 def developmentVersion = "latest"
 pipeline {
     agent any
