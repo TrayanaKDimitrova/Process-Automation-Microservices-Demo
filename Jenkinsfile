@@ -1,5 +1,3 @@
-def productionVersion = "1.0"
-def developmentVersion = "latest"
 pipeline {
     agent any
     stages {
@@ -9,6 +7,9 @@ pipeline {
             }
         }
         stage('Docker Build') {
+            environment {
+                productionVersion = "1.0"
+            }
             steps {
                 // echo "${env.productionVersion}"
                 // echo "$env.productionVersion"
