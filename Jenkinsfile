@@ -75,10 +75,10 @@ pipeline {
         stage('Deploy Development') {
             when { branch 'development' }
                 steps {
+                    // We have only one publish in cloud becouse have tial account. Code is work and testing with production IP. 
+                    //For this test reason we use Development and local is same publish for this project
                     echo "Apply kubernetes apply files in development."
-                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://35.226.255.7']) {
-                        // We have only one publish in cloud becouse have tial account.
-                        //For this test reason we use Development and local is same publish for this project"
+                    withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://127.0.0.1']) {"
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
                         powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
                         powershell(script: 'kubectl apply -f ./.k8s/.environments/development.yml') 
