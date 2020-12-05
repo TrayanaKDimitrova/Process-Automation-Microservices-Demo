@@ -13,15 +13,9 @@ pipeline {
             steps {
                 echo "${env.productionVersion}"
                 echo "$env.productionVersion"
-                echo '\$env:VERSION=${env.productionVersion}; docker-compose build'
-                echo '$env:VERSION=${env.productionVersion}; docker-compose build'
-                echo '$env:VERSION=$env.productionVersion; docker-compose build'
-                echo 'env.productionVersion'
-                echo '$productionVersion'
-                echo 'productionVersion'
-                echo '${productionVersion}'
-                echo '${env.productionVersion}'
-                echo '$env.productionVersion'
+                echo '\$env:VERSION='"${env.productionVersion}"'; docker-compose build'
+                echo '$env:VERSION='"${env.productionVersion}"'; docker-compose build'
+                echo '$env:VERSION='"$env.productionVersion"'; docker-compose build'
                 powershell(script: '\$env:VERSION=1.0; docker-compose build')   
                 powershell(script: 'docker images -a')
             }
