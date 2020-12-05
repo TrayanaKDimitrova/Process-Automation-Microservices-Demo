@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                powershell(script: '\$env:VERSION=${productionVersion}; docker-compose build')   
+                powershell(script: 'VERSION=${productionVersion} docker-compose build')   
                 powershell(script: 'docker images -a')
             }
         }   
