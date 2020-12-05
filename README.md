@@ -1,6 +1,14 @@
-## Cloud production publish url:
-Client:
-Admin:
+This readme includes detailed information about the structure of the project and instructions on how to run and configure this project.
+
+# Course project:
+
+Production demo urls:
+* Client: http://35.238.234.31:5084/
+* Admin: http://34.66.83.74:5088/
+* API: http://35.184.106.16:5080/
+   * GET http://35.184.106.16:5080/api/cars
+   * POST http://35.184.106.16:5080/api/car
+   * POST http://35.184.106.16:5080/api/db/migrate
 
 # Process Automation with Microservices
 
@@ -37,19 +45,6 @@ Sometimes the API service throws error 500 when trying to connect to the databas
   - `docker volume rm kubernetes-demo-project_softuni_kubernetes_mysqldata`
 - start over ...
 
-### Start project with kubectl
-
-1. run kubectl commands
-   - kubectl delete all --all
-   - kubectl delete pvc --all
-   - kubectl apply -f .k8s/.environments/local.yml
-   - kubectl apply -f .k8s/databases/
-   - kubectl apply -f .k8s/web-services/
-   - kubectl apply -f .k8s/clients/
-2. go to the Web Admin at http://localhost:5088 and click on Run Migrations
-   - this will force the API service to connect to the MySQL container and create the DB tables
-3. go to the Web Client at http://localhost:5084
-
 ### Deploy to gcloud
 
 1. run kubectl commands
@@ -78,6 +73,30 @@ Sometimes the API service throws error 500 when trying to connect to the databas
       - kubectl apply -f .k8s/web-services/services
    6. deploy the database
       - kubectl apply -f .k8s/databases
+
+## Jenkins
+
+1. create a new multibranch pipeline project
+2. configurations settings
+   1. configure your git `branch source`
+   2. configure your `docker credentials`
+   3. save settings
+3. scan repositories if such aren't yet available
+4. go to the `dashboard -> manage -> plugins` and install
+   * Kubernetes CLI Plugin
+   * Email Extension Template Plugin
+   * Email Ext Recipients Column Plugin
+5. go to the `dashboard -> manage -> configure/settings` and configure the `cloud` settings
+   * kubernetes cloud details
+      * Name -> `jenkins-robot`
+         * `kubectl create serviceaccount jenkins-robot`
+         * `kubectl create rolebinding jenkins-robot-binding --clusterrole=cluster-admin --serviceaccount=default:jenkins-robot`
+      * Kubernetes URL -> `put your cluster IP here with HTTPS`
+      * Kubernetes server certificate key
+         * `kubectl describe sa jenkins-robot`
+         * `kubectl describe secret {token-secret}`
+      * Kubernetes Namespace -> `default`
+6. the email notifications are sent to the email address of the Jenkins users running the pipelines
 
 ## Application Architecture
 
