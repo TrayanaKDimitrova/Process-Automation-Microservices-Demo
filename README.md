@@ -1,3 +1,7 @@
+## Cloud production publish url:
+Client:
+Admin:
+
 # Process Automation with Microservices
 
 This project follows the structure and the approaches from [Process Automation with ASP.NET Core Microservices](https://github.com/ivaylokenov/Process-Automation-with-ASP.NET-Core-Microservices), which contains the demo source from [SoftUni course](https://softuni.bg/trainings/3162/process-automation-with-asp-net-core-microservices-october-2020). It's lightweight and doesn't require that much resources.
