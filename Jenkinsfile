@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        productionVersion = "1.0"
+    }
     stages {
         stage('Verify Branch') {
             steps {
@@ -7,15 +10,12 @@ pipeline {
             }
         }
         stage('Docker Build') {
-            environment {
-                productionVersion = "1.0"
-            }
             steps {
-                // echo "${env.productionVersion}"
-                // echo "$env.productionVersion"
-                // echo '\$env:VERSION=${env.productionVersion}; docker-compose build'
-                // echo '$env:VERSION=${env.productionVersion}; docker-compose build'
-                // echo '$env:VERSION=$env.productionVersion; docker-compose build'
+                echo "${env.productionVersion}"
+                echo "$env.productionVersion"
+                echo '\$env:VERSION=${env.productionVersion}; docker-compose build'
+                echo '$env:VERSION=${env.productionVersion}; docker-compose build'
+                echo '$env:VERSION=$env.productionVersion; docker-compose build'
                 echo 'env.productionVersion'
                 echo '$productionVersion'
                 echo 'productionVersion'
