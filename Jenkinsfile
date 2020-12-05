@@ -1,3 +1,4 @@
+def productionVersion = 1.0
 pipeline {
     agent any
     stages {
@@ -8,7 +9,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                powershell(script: 'docker-compose build')   
+                powershell(script: '$env:VERSION=1; docker-compose build')   
                 powershell(script: 'docker images -a')
             }
         }   
