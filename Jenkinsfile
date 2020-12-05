@@ -11,18 +11,15 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                echo "${env.productionVersion}"
-                echo "$env.productionVersion"
-                echo "\$env:VERSION= ${env.productionVersion}; docker-compose build"
-                echo "$env:VERSION= ${env.productionVersion}; docker-compose build"
-                echo "$env:VERSION= $env.productionVersion; docker-compose build"
-                powershell(script: '\$env:VERSION=1.0; docker-compose build')   
-                powershell(script: 'docker images -a')
+                //Configuration production with specific version for images in docker-compose. 
+                powershell(script: "\$env:VERSION= ${env.productionVersion}; docker-compose build")   
+                powershell(script: "docker images -a")
             }
         }   
 	    stage('Run Test Application') {
             steps {
-                powershell(script: '\$env:VERSION=1.0; docker-compose up -d')    
+                //Configuration production with specific version for images in docker-compose. 
+                powershell(script: "\$env:VERSION= ${env.productionVersion}; docker-compose up -d")    
             }
         }
         stage('Run Integration Tests in Development ') {
@@ -39,8 +36,8 @@ pipeline {
         }
         stage('Stop Test Application') {
             steps {
-                powershell(script: 'docker-compose down') 
-                powershell(script: 'docker volume prune -f')   		
+                powershell(script: "docker-compose down") 
+                powershell(script: "docker volume prune -f")   		
             }
             post {
                 success {
@@ -89,12 +86,12 @@ pipeline {
                     //We used trial cloud account have only one publish. This publish is production.
                     //When have dev publish used this configuration in dev bransh. Now dev and local is same.
                     withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://localhost']) {
-                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                        powershell(script: 'kubectl apply -f ./.k8s/.environments/development.yml') 
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                        powershell(script: 'kubectl apply -f ./.k8s/databases')   
+                        powershell(script: "kubectl apply -f ./.k8s/loadbalancers/clients")
+                        powershell(script: "kubectl apply -f ./.k8s/loadbalancers/services")
+                        powershell(script: "kubectl apply -f ./.k8s/.environments/development.yml") 
+                        powershell(script: "kubectl apply -f ./.k8s/web-services/clients")
+                        powershell(script: "kubectl apply -f ./.k8s/web-services/services") 
+                        powershell(script: "kubectl apply -f ./.k8s/databases")   
                     }
                 }
         }
@@ -110,12 +107,12 @@ pipeline {
                         steps {
                             //
                             withKubeConfig([credentialsId: 'ProductionServer', serverUrl: 'https://35.226.255.7']) {
-                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                                powershell(script: 'kubectl apply -f ./.k8s/.environments/production.yml') 
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                                powershell(script: 'kubectl apply -f ./.k8s/databases')   
+                                powershell(script: "kubectl apply -f ./.k8s/loadbalancers/clients")
+                                powershell(script: "kubectl apply -f ./.k8s/loadbalancers/services")
+                                powershell(script: "kubectl apply -f ./.k8s/.environments/production.yml") 
+                                powershell(script: "kubectl apply -f ./.k8s/web-services/clients")
+                                powershell(script: "kubectl apply -f ./.k8s/web-services/services") 
+                                powershell(script: "kubectl apply -f ./.k8s/databases")   
                             }
                         }
                         post {
