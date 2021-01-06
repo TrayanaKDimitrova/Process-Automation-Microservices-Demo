@@ -1,14 +1,3 @@
-This readme includes detailed information about the structure of the project and instructions on how to run and configure this project.
-
-# Course project:
-
-Production demo urls:
-* Client: http://35.238.234.31:5084/
-* Admin: http://34.66.83.74:5088/
-* API: http://35.184.106.16:5080/
-   * GET http://35.184.106.16:5080/api/cars
-   * POST http://35.184.106.16:5080/api/car
-   * POST http://35.184.106.16:5080/api/db/migrate
 
 # Process Automation with Microservices
 
