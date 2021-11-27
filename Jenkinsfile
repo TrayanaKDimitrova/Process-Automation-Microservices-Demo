@@ -8,31 +8,31 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                powershell(script: 'docker-compose build')   
-                powershell(script: 'docker images -a')
+                pwsh(script: 'docker-compose build')   
+                pwsh(script: 'docker images -a')
             }
         }   
 	    stage('Run Test Application') {
             steps {
-                powershell(script: 'docker-compose up -d')    
+                pwsh(script: 'docker-compose up -d')    
             }
         }
         stage('Run Integration Tests in Development ') {
             when { branch 'development' }
             steps {
-                powershell(script: './Tests/DevelopmentTests.ps')      
+                pwsh(script: './Tests/DevelopmentTests.ps')      
             }
         }
         stage('Run Integration Tests in Production ') {
             when { branch 'main' }
             steps {
-                powershell(script: './Tests/ProductionTests.ps')      
+                pwsh(script: './Tests/ProductionTests.ps')      
             }
         }
         stage('Stop Test Application') {
             steps {
-                powershell(script: 'docker-compose down') 
-                powershell(script: 'docker volume prune -f')   		
+                pwsh(script: 'docker-compose down') 
+                pwsh(script: 'docker volume prune -f')   		
             }
             post {
                 success {
@@ -79,12 +79,12 @@ pipeline {
                     //For this test reason we use Development and local is same publish for this project
                     echo "Apply kubernetes apply files in development."
                     withKubeConfig([credentialsId: 'DevelopmentServer', serverUrl: 'https://127.0.0.1']) {
-                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                        powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                        powershell(script: 'kubectl apply -f ./.k8s/.environments/development.yml') 
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                        powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                        powershell(script: 'kubectl apply -f ./.k8s/databases')
+                        pwsh(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                        pwsh(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
+                        pwsh(script: 'kubectl apply -f ./.k8s/.environments/development.yml') 
+                        pwsh(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                        pwsh(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                        pwsh(script: 'kubectl apply -f ./.k8s/databases')
                     }
                 }
         }
@@ -101,12 +101,12 @@ pipeline {
                             //In this branch we don't have production.yml.
                             //And for security there missing IP for production.
                             withKubeConfig([credentialsId: 'ProductionServer']) {
-                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
-                                powershell(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
-                                powershell(script: 'kubectl apply -f ./.k8s/.environments/production.yml') 
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services/clients')
-                                powershell(script: 'kubectl apply -f ./.k8s/web-services/services') 
-                                powershell(script: 'kubectl apply -f ./.k8s/databases')   
+                                pwsh(script: 'kubectl apply -f ./.k8s/loadbalancers/clients')
+                                pwsh(script: 'kubectl apply -f ./.k8s/loadbalancers/services')
+                                pwsh(script: 'kubectl apply -f ./.k8s/.environments/production.yml') 
+                                pwsh(script: 'kubectl apply -f ./.k8s/web-services/clients')
+                                pwsh(script: 'kubectl apply -f ./.k8s/web-services/services') 
+                                pwsh(script: 'kubectl apply -f ./.k8s/databases')   
                             }
                         }
                         post {
