@@ -20,11 +20,9 @@ pipeline {
         stage('Run Integration Tests in Development ') {
             when { branch 'development' }
             steps {
-                sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.ps')      
-            }
-	    steps {
-                sh(script: './Tests/DevelopmentTests.ps')      
-            }
+                sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.ps')
+		sh(script: './Tests/DevelopmentTests.ps') 
+	    }
         }
         stage('Run Integration Tests in Production ') {
             when { branch 'main' }
