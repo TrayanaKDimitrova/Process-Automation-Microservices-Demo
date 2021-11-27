@@ -20,7 +20,7 @@ pipeline {
         stage('Run Integration Tests in Development ') {
             when { branch 'development' }
             steps {
-                pwsh(script: './Tests/DevelopmentTests.ps')      
+                pwsh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.ps')      
             }
         }
         stage('Run Integration Tests in Production ') {
