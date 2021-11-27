@@ -8,13 +8,13 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                pwsh(script: 'docker-compose build')   
-                pwsh(script: 'docker images -a')
+                sh(script: 'docker-compose build')   
+                sh(script: 'docker images -a')
             }
         }   
 	    stage('Run Test Application') {
             steps {
-                pwsh(script: 'docker-compose up -d')    
+                sh(script: 'docker-compose up -d')    
             }
         }
         stage('Run Integration Tests in Development ') {
