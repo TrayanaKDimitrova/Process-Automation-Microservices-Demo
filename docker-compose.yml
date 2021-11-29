@@ -17,10 +17,7 @@ services:
 
   softuni_kubernetes_php_apache2_service:
     container_name: softuni_kubernetes_php_apache2
-    image: 3176a6a/demo-carrentalsystem-server:latest
-    build:
-      context: ./Server
-      dockerfile: ./CarRentalSystemAPI/Dockerfile
+    image: 3176a6a/demo-carrentalsystem-server:54
     ports:
       - '5080:80'
       - '5081:443'
@@ -40,10 +37,7 @@ services:
 
   softuni_kubernetes_httpd_client_service:
     container_name: softuni_kubernetes_httpd_client
-    image: 3176a6a/demo-carrentalsystem-client:latest
-    build:
-      context: ./Client
-      dockerfile: ./CarRentalSystemClient/Dockerfile
+    image: 3176a6a/demo-carrentalsystem-client:53
     ports:
       - '5084:80'
       - '5085:443'
@@ -56,10 +50,7 @@ services:
 
   softuni_kubernetes_httpd_admin_service:
     container_name: softuni_kubernetes_httpd_admin
-    image: 3176a6a/demo-carrentalsystem-admin:latest
-    build:
-      context: ./Client
-      dockerfile: ./CarRentalSystemAdmin/Dockerfile
+    image: 3176a6a/demo-carrentalsystem-admin:69
     ports:
       - '5088:80'
       - '5089:443'
