@@ -20,14 +20,14 @@ pipeline {
         stage('Run Integration Tests in Development ') {
             when { branch 'development' }
             steps {
-                sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.ps')
-		sh(script: './Tests/DevelopmentTests.ps') 
+                sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.sh')
+		sh(script: './Tests/DevelopmentTests.sh') 
 	    }
         }
         stage('Run Integration Tests in Production ') {
             when { branch 'main' }
             steps {
-                sh(script: './Tests/ProductionTests.ps')      
+                sh(script: './Tests/ProductionTests.sh')      
             }
         }
         stage('Stop Test Application') {
