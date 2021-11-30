@@ -25,13 +25,13 @@ pipeline {
         stage('Run Integration Tests in Development ') {
             when { branch 'development' }
             steps {
-                pwsh(script: './Tests/DevelopmentTests.ps')      
+                pwsh(script: './Tests/DevelopmentTests.sh')      
             }
         }
         stage('Run Integration Tests in Production ') {
             when { branch 'main' }
             steps {
-                pwsh(script: './Tests/ProductionTests.ps')      
+                pwsh(script: './Tests/ProductionTests.sh')      
             }
         }
         stage('Stop Test Application') {
