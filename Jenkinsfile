@@ -21,7 +21,6 @@ pipeline {
             when { branch 'development' }
             steps {
                 sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.sh')
-		sh(script: './Tests/DevelopmentTests.sh') 
 	    }
         }
         stage('Run Integration Tests in Production ') {
