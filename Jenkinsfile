@@ -119,8 +119,7 @@ pipeline {
                                 emailext body: 'Images publish Failed', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Car Rental System'
                             }
                         }
-                    }
-            
+                    }           
         }
     }
 }
