@@ -20,8 +20,10 @@ pipeline {
         stage('Run Integration Tests in Development ') {
             when { branch 'development' }
             steps {
+		                //Unit-test will be failt. Stop applications.
+		    		sh(script: 'docker-compose down')
 				sh(script: 'chmod -R +x /var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.sh')
-                sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.sh')
+                		sh(script: '/var/jenkins_home/workspace/New_Test_Pipeline_development/Tests/DevelopmentTests.sh')
 			}
         }
         stage('Run Integration Tests in Production ') {
